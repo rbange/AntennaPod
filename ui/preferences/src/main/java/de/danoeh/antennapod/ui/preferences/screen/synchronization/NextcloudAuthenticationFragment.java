@@ -101,16 +101,18 @@ public class NextcloudAuthenticationFragment extends DialogFragment
         certPickerLauncher.launch(intent);
     }
     
+    private static final String CERT_DIR_NAME = "certificates";
+    private static final String CERT_FILE_NAME = "client_cert.p12";
+    
     private void handleCertificateSelected(Uri uri) {
         try {
             // Copy the certificate to app's private storage
-            File certDir = new File(requireContext().getFilesDir(), "certificates");
+            File certDir = new File(requireContext().getFilesDir(), CERT_DIR_NAME);
             if (!certDir.exists()) {
                 certDir.mkdirs();
             }
             
-            String fileName = "client_cert.p12";
-            File destFile = new File(certDir, fileName);
+            File destFile = new File(certDir, CERT_FILE_NAME);
             
             try (java.io.InputStream in = requireContext().getContentResolver().openInputStream(uri);
                  java.io.OutputStream out = new java.io.FileOutputStream(destFile)) {
@@ -124,10 +126,10 @@ public class NextcloudAuthenticationFragment extends DialogFragment
             selectedCertPath = destFile.getAbsolutePath();
             updateCertificateDisplay();
         } catch (Exception e) {
-            e.printStackTrace();
+            android.util.Log.e(TAG, "Failed to load certificate", e);
             final MaterialAlertDialogBuilder errorDialog = new MaterialAlertDialogBuilder(getContext());
             errorDialog.setTitle(R.string.error_label);
-            errorDialog.setMessage("Failed to load certificate: " + e.getMessage());
+            errorDialog.setMessage(getString(R.string.client_certificate_load_error, e.getMessage()));
             errorDialog.setPositiveButton(android.R.string.ok, null);
             errorDialog.show();
         }

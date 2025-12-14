@@ -32,9 +32,10 @@ public class ClientCertificateManager {
             return null;
         }
 
+        char[] passwordChars = null;
         try {
             KeyStore keyStore = KeyStore.getInstance("PKCS12");
-            char[] passwordChars = (password != null && !password.isEmpty()) 
+            passwordChars = (password != null && !password.isEmpty()) 
                 ? password.toCharArray() 
                 : new char[0];
 
@@ -51,6 +52,11 @@ public class ClientCertificateManager {
                 | CertificateException | UnrecoverableKeyException e) {
             Log.e(TAG, "Failed to load client certificate from " + certPath, e);
             return null;
+        } finally {
+            // Clear password from memory for security
+            if (passwordChars != null && passwordChars.length > 0) {
+                java.util.Arrays.fill(passwordChars, ' ');
+            }
         }
     }
 }

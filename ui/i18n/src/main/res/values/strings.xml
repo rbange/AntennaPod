@@ -737,6 +737,7 @@
     <string name="client_certificate_selected">Certificate: %1$s</string>
     <string name="client_certificate_clear">Clear certificate</string>
     <string name="client_certificate_password_label">Certificate password (if any)</string>
+    <string name="client_certificate_load_error">Failed to load certificate: %1$s</string>
     <string name="synchronization_login_butLabel">Log in</string>
     <string name="synchronization_selectDevice_explanation">Please select the device that you created on the synchronization server or create a new one.</string>
     <string name="gpodnetauth_device_name">Device name</string>
