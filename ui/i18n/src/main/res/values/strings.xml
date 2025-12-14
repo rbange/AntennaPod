@@ -731,6 +731,12 @@
     <string name="gpodnetauth_encryption_warning">Password and data are not encrypted!</string>
     <string name="username_label">Username</string>
     <string name="password_label">Password</string>
+    <string name="client_certificate_label">Client certificate (optional)</string>
+    <string name="client_certificate_explanation">Select a PKCS12 (.p12 or .pfx) certificate file for mutual TLS authentication. This is optional and only needed if your server requires client certificates.</string>
+    <string name="client_certificate_select">Select certificate</string>
+    <string name="client_certificate_selected">Certificate: %1$s</string>
+    <string name="client_certificate_clear">Clear certificate</string>
+    <string name="client_certificate_password_label">Certificate password (if any)</string>
     <string name="synchronization_login_butLabel">Log in</string>
     <string name="synchronization_selectDevice_explanation">Please select the device that you created on the synchronization server or create a new one.</string>
     <string name="gpodnetauth_device_name">Device name</string>
