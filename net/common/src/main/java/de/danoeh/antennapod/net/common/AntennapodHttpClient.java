@@ -57,6 +57,17 @@ public class AntennapodHttpClient {
      */
     @NonNull
     public static OkHttpClient.Builder newBuilder() {
+        return newBuilder(null, null);
+    }
+
+    /**
+     * Creates a new HTTP client with optional client certificate support.
+     * @param clientCertPath Path to the client certificate file (PKCS12 format)
+     * @param clientCertPassword Password for the client certificate
+     * @return http client builder
+     */
+    @NonNull
+    public static OkHttpClient.Builder newBuilder(String clientCertPath, String clientCertPassword) {
         Log.d(TAG, "Creating new instance of HTTP client");
 
         System.setProperty("http.maxConnections", String.valueOf(MAX_CONNECTIONS));
@@ -94,7 +105,7 @@ public class AntennapodHttpClient {
             }
         }
 
-        SslClientSetup.installCertificates(builder);
+        SslClientSetup.installCertificates(builder, clientCertPath, clientCertPassword);
         return builder;
     }
 

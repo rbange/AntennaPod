@@ -350,13 +350,25 @@ public class SyncService extends Worker {
         if (selectedService == null) {
             return null;
         }
+        
+        // Create HTTP client with client certificate support if configured
+        String certPath = SynchronizationCredentials.getClientCertPath();
+        String certPassword = SynchronizationCredentials.getClientCertPassword();
+        okhttp3.OkHttpClient httpClient;
+        
+        if (certPath != null && !certPath.isEmpty()) {
+            httpClient = AntennapodHttpClient.newBuilder(certPath, certPassword).build();
+        } else {
+            httpClient = AntennapodHttpClient.getHttpClient();
+        }
+        
         switch (selectedService) {
             case GPODDER_NET:
-                return new GpodnetService(AntennapodHttpClient.getHttpClient(),
+                return new GpodnetService(httpClient,
                         SynchronizationCredentials.getHosturl(), SynchronizationCredentials.getDeviceId(),
                         SynchronizationCredentials.getUsername(), SynchronizationCredentials.getPassword());
             case NEXTCLOUD_GPODDER:
-                return new NextcloudSyncService(AntennapodHttpClient.getHttpClient(),
+                return new NextcloudSyncService(httpClient,
                         SynchronizationCredentials.getHosturl(), SynchronizationCredentials.getUsername(),
                         SynchronizationCredentials.getPassword());
             default:

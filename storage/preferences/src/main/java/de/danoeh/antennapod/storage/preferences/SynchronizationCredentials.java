@@ -12,6 +12,8 @@ public abstract class SynchronizationCredentials {
     private static final String PREF_PASSWORD = "de.danoeh.antennapod.preferences.gpoddernet.password";
     private static final String PREF_DEVICEID = "de.danoeh.antennapod.preferences.gpoddernet.deviceID";
     private static final String PREF_HOSTNAME = "prefGpodnetHostname";
+    private static final String PREF_CLIENT_CERT_PATH = "de.danoeh.antennapod.preferences.gpoddernet.clientCertPath";
+    private static final String PREF_CLIENT_CERT_PASSWORD = "de.danoeh.antennapod.preferences.gpoddernet.clientCertPassword";
 
     private static SharedPreferences prefs;
 
@@ -51,10 +53,28 @@ public abstract class SynchronizationCredentials {
         prefs.edit().putString(PREF_HOSTNAME, value).apply();
     }
 
+    public static String getClientCertPath() {
+        return prefs.getString(PREF_CLIENT_CERT_PATH, null);
+    }
+
+    public static void setClientCertPath(String path) {
+        prefs.edit().putString(PREF_CLIENT_CERT_PATH, path).apply();
+    }
+
+    public static String getClientCertPassword() {
+        return prefs.getString(PREF_CLIENT_CERT_PASSWORD, null);
+    }
+
+    public static void setClientCertPassword(String password) {
+        prefs.edit().putString(PREF_CLIENT_CERT_PASSWORD, password).apply();
+    }
+
     public static synchronized void clear() {
         setUsername(null);
         setPassword(null);
         setDeviceId(null);
+        setClientCertPath(null);
+        setClientCertPassword(null);
         UserPreferences.setGpodnetNotificationsEnabled();
     }
 }

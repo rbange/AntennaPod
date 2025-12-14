@@ -1,5 +1,6 @@
 package de.danoeh.antennapod.net.ssl;
 
+import javax.net.ssl.KeyManager;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
@@ -13,11 +14,16 @@ import java.security.NoSuchAlgorithmException;
 /**
  * SSLSocketFactory that does not use TLS 1.0
  * This fixes issues with old Android versions that abort if the server does not know TLS 1.0
+ * Also supports client certificates for mutual TLS authentication.
  */
 public class AntennaPodSslSocketFactory extends SSLSocketFactory {
     private SSLSocketFactory factory;
 
     public AntennaPodSslSocketFactory(TrustManager trustManager) {
+        this(trustManager, null);
+    }
+
+    public AntennaPodSslSocketFactory(TrustManager trustManager, KeyManager[] keyManagers) {
         try {
             SSLContext sslContext;
 
@@ -29,7 +35,7 @@ public class AntennaPodSslSocketFactory extends SSLSocketFactory {
                 sslContext = SSLContext.getInstance("TLSv1.2");
             }
 
-            sslContext.init(null, new TrustManager[] {trustManager}, null);
+            sslContext.init(keyManagers, new TrustManager[] {trustManager}, null);
             factory = sslContext.getSocketFactory();
         } catch (GeneralSecurityException e) {
             e.printStackTrace();
